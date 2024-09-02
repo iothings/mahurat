@@ -1,2 +1,2 @@
 # mahurat
-This code will help me learn coding
+This website will provide the best mahurat for today in San Jose
