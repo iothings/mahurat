@@ -3,10 +3,510 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World</title>
+    <title>Mahurat - Auspicious Times | San Jose</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background elements */
+        .bg-decoration {
+            position: fixed;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .om-symbol {
+            font-size: 200px;
+            top: 10%;
+            right: -50px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .mandala {
+            font-size: 150px;
+            bottom: 10%;
+            left: -30px;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+        }
+
+        @keyframes shine {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 3.5em;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #ffd700, #ff8c00, #ffd700, #ff8c00);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shine 3s linear infinite;
+        }
+
+        .subtitle {
+            color: #ffd700;
+            font-size: 1.3em;
+            font-style: italic;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .location {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.2);
+            padding: 8px 20px;
+            border-radius: 20px;
+            margin-top: 10px;
+            color: #fff;
+            font-size: 1.1em;
+        }
+
+        .current-time-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,248,220,0.95) 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            text-align: center;
+            border: 3px solid #ffd700;
+        }
+
+        .current-time {
+            font-size: 3em;
+            color: #764ba2;
+            font-weight: bold;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .current-date {
+            font-size: 1.5em;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .mahurat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .mahurat-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,248,220,0.95) 100%);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 5px solid;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mahurat-card::before {
+            content: '✨';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 2em;
+            opacity: 0.3;
+        }
+
+        .mahurat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+        }
+
+        .mahurat-card.excellent {
+            border-left-color: #228B22;
+        }
+
+        .mahurat-card.good {
+            border-left-color: #FFD700;
+        }
+
+        .mahurat-card.moderate {
+            border-left-color: #FF8C00;
+        }
+
+        .mahurat-title {
+            font-size: 1.6em;
+            color: #764ba2;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .mahurat-time {
+            font-size: 1.4em;
+            color: #667eea;
+            margin: 10px 0;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+        }
+
+        .mahurat-description {
+            color: #555;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        .quality-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .excellent-badge {
+            background: #228B22;
+            color: white;
+        }
+
+        .good-badge {
+            background: #FFD700;
+            color: #333;
+        }
+
+        .moderate-badge {
+            background: #FF8C00;
+            color: white;
+        }
+
+        .info-section {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,248,220,0.95) 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+        }
+
+        .info-section h2 {
+            color: #764ba2;
+            margin-bottom: 15px;
+            font-size: 2em;
+            border-bottom: 3px solid #ffd700;
+            padding-bottom: 10px;
+        }
+
+        .info-section p {
+            color: #555;
+            line-height: 1.8;
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+
+        footer {
+            text-align: center;
+            color: #fff;
+            margin-top: 40px;
+            padding: 20px;
+            font-size: 0.9em;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .disclaimer {
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+            .current-time {
+                font-size: 2em;
+            }
+            .mahurat-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello, World!</h1>
-    <p>Welcome to my first webpage hosted on GitHub!</p>
+    <div class="bg-decoration om-symbol">ॐ</div>
+    <div class="bg-decoration mandala">🕉️</div>
+
+    <div class="container">
+        <header>
+            <h1>🪔 Mahurat Times 🪔</h1>
+            <div class="subtitle">Auspicious Times According to Vedic Astrology</div>
+            <div class="location">📍 San Jose, California</div>
+        </header>
+
+        <div class="current-time-card">
+            <div class="current-date" id="currentDate"></div>
+            <div class="current-time" id="currentTime"></div>
+            <div style="color: #764ba2; font-size: 1.1em;">Local Time in San Jose</div>
+        </div>
+
+        <div class="mahurat-grid" id="mahuratGrid"></div>
+
+        <div class="info-section">
+            <h2>🌟 About Mahurat</h2>
+            <p>
+                <strong>Mahurat</strong> (also spelled Muhurat or Muhurta) is an auspicious time period in Vedic astrology,
+                considered ideal for beginning important activities, ceremonies, and endeavors. The concept is rooted in
+                the ancient Vedic system of timekeeping and planetary influences.
+            </p>
+            <p>
+                <strong>Brahma Mahurat</strong> is considered the most sacred time of day, occurring approximately 96 minutes
+                before sunrise. It is believed to be the best time for spiritual practices, meditation, and yoga.
+            </p>
+            <p>
+                <strong>Abhijit Mahurat</strong> is a highly auspicious period during the middle of the day, free from
+                malefic influences. It is considered excellent for all types of activities.
+            </p>
+            <p>
+                <strong>Godhuli Mahurat</strong> occurs during twilight hours and is considered favorable for spiritual
+                activities and worship.
+            </p>
+        </div>
+
+        <footer>
+            <p class="disclaimer">
+                ⚠️ These timings are approximate and based on traditional Vedic calculations for San Jose, CA.
+                For precise timings and personalized astrological guidance, please consult a qualified Vedic astrologer.
+            </p>
+            <p style="margin-top: 15px;">
+                Made with 💛 for the spiritual seekers | © 2025
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Mahurat data and calculations
+        function updateDateTime() {
+            const now = new Date();
+            const options = {
+                timeZone: 'America/Los_Angeles',
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
+
+            const dateStr = now.toLocaleDateString('en-US', options);
+            const timeStr = now.toLocaleTimeString('en-US', {
+                timeZone: 'America/Los_Angeles',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            });
+
+            document.getElementById('currentDate').textContent = dateStr;
+            document.getElementById('currentTime').textContent = timeStr;
+        }
+
+        function calculateSunrise() {
+            // Approximate sunrise for San Jose (varies by season)
+            // This is a simplified calculation - actual times vary throughout the year
+            const now = new Date();
+            const month = now.getMonth();
+
+            // Approximate sunrise hours for San Jose by season
+            let sunriseHour = 7;
+            let sunriseMinute = 0;
+
+            if (month >= 2 && month <= 4) { // Spring
+                sunriseHour = 6;
+                sunriseMinute = 30;
+            } else if (month >= 5 && month <= 7) { // Summer
+                sunriseHour = 5;
+                sunriseMinute = 45;
+            } else if (month >= 8 && month <= 10) { // Fall
+                sunriseHour = 6;
+                sunriseMinute = 45;
+            } else { // Winter
+                sunriseHour = 7;
+                sunriseMinute = 15;
+            }
+
+            const sunrise = new Date();
+            sunrise.setHours(sunriseHour, sunriseMinute, 0);
+            return sunrise;
+        }
+
+        function formatTime(date) {
+            return date.toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true,
+                timeZone: 'America/Los_Angeles'
+            });
+        }
+
+        function addMinutes(date, minutes) {
+            return new Date(date.getTime() + minutes * 60000);
+        }
+
+        function generateMahurats() {
+            const sunrise = calculateSunrise();
+            const mahurats = [];
+
+            // Brahma Mahurat - 96 minutes before sunrise
+            const brahmaStart = addMinutes(sunrise, -96);
+            const brahmaEnd = addMinutes(sunrise, -48);
+            mahurats.push({
+                title: 'Brahma Mahurat',
+                time: `${formatTime(brahmaStart)} - ${formatTime(brahmaEnd)}`,
+                description: 'The most auspicious time for spiritual practices, meditation, yoga, and study of sacred texts. The cosmic energy is pure and conducive to spiritual growth.',
+                quality: 'excellent',
+                icon: '🧘'
+            });
+
+            // Pratah Kaal - Morning time
+            const pratahStart = sunrise;
+            const pratahEnd = addMinutes(sunrise, 48);
+            mahurats.push({
+                title: 'Pratah Kaal Mahurat',
+                time: `${formatTime(pratahStart)} - ${formatTime(pratahEnd)}`,
+                description: 'Early morning period after sunrise, excellent for worship, new beginnings, and auspicious activities. A time of fresh energy and divine blessings.',
+                quality: 'excellent',
+                icon: '🌅'
+            });
+
+            // Abhijit Mahurat - Midday auspicious time
+            const abhijitStart = new Date();
+            abhijitStart.setHours(11, 54, 0);
+            const abhijitEnd = new Date();
+            abhijitEnd.setHours(12, 42, 0);
+            mahurats.push({
+                title: 'Abhijit Mahurat',
+                time: `${formatTime(abhijitStart)} - ${formatTime(abhijitEnd)}`,
+                description: 'The victory hour, considered free from all malefic effects. Highly favorable for important tasks, business dealings, interviews, and starting new ventures.',
+                quality: 'excellent',
+                icon: '⭐'
+            });
+
+            // Sayahna Sandhya - Evening twilight
+            const eveningStart = new Date();
+            eveningStart.setHours(17, 30, 0);
+            const eveningEnd = new Date();
+            eveningEnd.setHours(18, 30, 0);
+            mahurats.push({
+                title: 'Godhuli Mahurat',
+                time: `${formatTime(eveningStart)} - ${formatTime(eveningEnd)}`,
+                description: 'Twilight time when day meets night, sacred for evening prayers, lighting lamps, and spiritual activities. The cosmic transition brings special blessings.',
+                quality: 'good',
+                icon: '🕯️'
+            });
+
+            // Nishita Kaal - Late night powerful time
+            const nishitaStart = new Date();
+            nishitaStart.setHours(23, 30, 0);
+            const nishitaEnd = new Date();
+            nishitaEnd.setHours(0, 30, 0);
+            if (nishitaEnd < nishitaStart) {
+                nishitaEnd.setDate(nishitaEnd.getDate() + 1);
+            }
+            mahurats.push({
+                title: 'Nishita Mahurat',
+                time: `${formatTime(nishitaStart)} - ${formatTime(nishitaEnd)}`,
+                description: 'Midnight hour with powerful spiritual energy, traditionally used for tantric practices and deep meditation. Suitable for advanced spiritual practitioners.',
+                quality: 'moderate',
+                icon: '🌙'
+            });
+
+            // Rahu Kaal - Inauspicious time (for awareness)
+            const rahuStart = new Date();
+            rahuStart.setHours(15, 0, 0);
+            const rahuEnd = new Date();
+            rahuEnd.setHours(16, 30, 0);
+            mahurats.push({
+                title: 'Rahu Kaal (Avoid)',
+                time: `${formatTime(rahuStart)} - ${formatTime(rahuEnd)}`,
+                description: 'Time influenced by Rahu (shadow planet). Traditionally avoided for starting new activities or important work. Use this time for routine tasks only.',
+                quality: 'moderate',
+                icon: '⚠️'
+            });
+
+            return mahurats;
+        }
+
+        function displayMahurats() {
+            const mahurats = generateMahurats();
+            const grid = document.getElementById('mahuratGrid');
+            grid.innerHTML = '';
+
+            mahurats.forEach(mahurat => {
+                const card = document.createElement('div');
+                card.className = `mahurat-card ${mahurat.quality}`;
+
+                const qualityText = mahurat.quality === 'excellent' ? 'Highly Auspicious' :
+                                   mahurat.quality === 'good' ? 'Auspicious' : 'Use Caution';
+                const badgeClass = `${mahurat.quality}-badge`;
+
+                card.innerHTML = `
+                    <div class="mahurat-title">${mahurat.icon} ${mahurat.title}</div>
+                    <div class="mahurat-time">${mahurat.time}</div>
+                    <div class="mahurat-description">${mahurat.description}</div>
+                    <span class="quality-badge ${badgeClass}">${qualityText}</span>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        // Update time every second
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+
+        // Display mahurats
+        displayMahurats();
+
+        // Update mahurats at midnight
+        setInterval(() => {
+            const now = new Date();
+            if (now.getHours() === 0 && now.getMinutes() === 0) {
+                displayMahurats();
+            }
+        }, 60000);
+    </script>
 </body>
 </html>
